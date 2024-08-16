@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Title</title>
+</head>
+
+<body>
+<label for="url">URL地址：</label><input type="text" id="url" size="60"
+                                        value="https://www.404z.cn/files/phone2region/v2.0.0/data/phone2region.zdb">
+<button id="loadUrl">加载</button>
+<br>
+<label for="file">zdb文件：</label><input type="file" id="file">
+<button id="loadFile">加载</button>
+<br>
+<label for="phone">手机号码：</label><input type="text" id="phone" value="1875471">
+<button id="parse">解析</button>
+<p id="tip"></p>
+<hr>
+<div id="result"></div>
+<script type="importmap">
+  {
+    "imports": {
+      "@zip.js/zip.js": "../node_modules/@zip.js/zip.js/index.js"
+    }
+  }
+</script>
+<script type="module">
+  import {Phone2Region} from '../dist/phone2region.esm.js'
+
+  const url = document.getElementById('url')
+  const loadUrl = document.getElementById('loadUrl')
+  const file = document.getElementById('file')
+  const loadFile = document.getElementById('loadFile')
+  const phone = document.getElementById('phone')
+  const parse = document.getElementById('parse')
+  const tip = document.getElementById('tip')
+  const result = document.getElementById('result')
+
+  const reader = new FileReader()
+  const phone2Region = new Phone2Region()
+
+  loadUrl.addEventListener('click', async function () {
+    try {
+      await phone2Region.initByUrl(url.value)
+    } catch (e) {
+      console.error(e)
+      tip.innerText = e
+    }
+    tip.innerText = 'URL地址加载成功！'
+  })
+  let zdbFile
+  file.addEventListener('change', function (e) {
+    zdbFile = e.target.files[0]
+  })
+  loadFile.addEventListener('click', function () {
+    try {
+      reader.onload = async function (e) {
+        try {
+          await phone2Region.init(e.target.result)
+        } catch (e) {
+          console.error(e)
+          tip.innerText = e
+        }
+      }
+      reader.readAsArrayBuffer(zdbFile)
+      tip.innerText = 'zdb文件加载成功！'
+    } catch (e) {
+      console.error(e)
+      tip.innerText = e
+    }
+  })
+  parse.addEventListener('click', function () {
+    try {
+      result.innerText = JSON.stringify(phone2Region.parse(phone.value))
+    } catch (e) {
+      console.error(e)
+      tip.innerText = e
+    }
+  })
+</script>
+</body>
+
+</html>
