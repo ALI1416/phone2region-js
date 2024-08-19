@@ -70,7 +70,7 @@ class Phone2Region {
     this.vector2AreaPtr = this.buffer.getInt32(12, true)
     this.vectorAreaPtr = this.buffer.getInt32(16, true)
     this.isInit = true
-    // console.log(`数据加载成功：版本号VERSION ${this.buffer.getInt32(4, true)} ，校验码CRC32 ${(crc32OriginValue + 0x100000000).toString(16).toLocaleUpperCase()}`)
+    // console.log(`数据加载成功：版本号VERSION ${this.buffer.getInt32(4, true)} ，校验码CRC32 ${(crc32OriginValue < 0 ? crc32OriginValue + 0x100000000 : crc32OriginValue).toString(16).toLocaleUpperCase()}`)
   }
 
   /**
@@ -166,11 +166,13 @@ class Phone2Region {
         return
       }
     }
+    pos += 1
 
     // 记录区
-    pos = this.buffer.getInt32(pos + 1, true)
+    pos = this.buffer.getInt32(pos, true)
     let recordValueLength = this.buffer.getInt8(pos) & 0xFF
-    let recordValue = this.buffer.buffer.slice(pos + 1, pos + 1 + recordValueLength)
+    pos += 1
+    let recordValue = this.buffer.buffer.slice(pos, pos + recordValueLength)
     return new Region(decoder.decode(recordValue))
   }
 
