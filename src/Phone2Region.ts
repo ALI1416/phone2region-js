@@ -165,8 +165,8 @@ class Phone2Region {
       if (num !== phoneSegments) {
         return
       }
+      pos += 1
     }
-    pos += 1
 
     // 记录区
     pos = this.buffer.getInt32(pos, true)

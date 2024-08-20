@@ -27,12 +27,12 @@
 ### 网页
 
 <https://unpkg.com/@zip.js/zip.js/dist/zip.min.js>
-<https://unpkg.com/@ali1416/phone2region@1.1.0/dist/phone2region.min.js>
+<https://unpkg.com/@ali1416/phone2region/dist/phone2region.min.js>
 
 ### node
 
 ```sh
-npm install @ali1416/phone2region@1.1.0
+npm install @ali1416/phone2region
 ```
 
 ## 使用示例
