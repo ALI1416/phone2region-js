@@ -3,7 +3,7 @@ import {Phone2RegionException} from './Phone2RegionException'
 import {Region} from './Region'
 import {crc32} from './Crc32'
 
-const decoder = new TextDecoder('utf-8')
+const decoder = new TextDecoder()
 
 /**
  * 手机号码转区域
@@ -16,7 +16,7 @@ class Phone2Region {
   /**
    * 已初始化
    */
-  private isInit = false
+  private isInit: boolean = false
   /**
    * 数据
    */
@@ -32,8 +32,9 @@ class Phone2Region {
 
   /**
    * 是否已经初始化
+   * @return 是否已经初始化
    */
-  initialized() {
+  initialized(): boolean {
     return this.isInit
   }
 
@@ -46,6 +47,7 @@ class Phone2Region {
     if (this.isInit) {
       throw new Phone2RegionException('已经初始化过了，不可重复初始化！')
     }
+    // console.log(`手机号码转区域初始化：URL路径URL_PATH ${url}`)
     await this.init(await (await fetch(url)).arrayBuffer())
   }
 
@@ -69,14 +71,14 @@ class Phone2Region {
     }
     this.vector2AreaPtr = this.buffer.getInt32(12, true)
     this.vectorAreaPtr = this.buffer.getInt32(16, true)
+    // console.log(`数据加载成功：版本号VERSION ${this.buffer.getInt32(4, true)} ，校验码CRC32 ${(crc32OriginValue < 0 ? crc32OriginValue + 0x100000000 : crc32OriginValue).toString(16).toLocaleUpperCase().padStart(8, '0')}`)
     this.isInit = true
-    // console.log(`数据加载成功：版本号VERSION ${this.buffer.getInt32(4, true)} ，校验码CRC32 ${(crc32OriginValue < 0 ? crc32OriginValue + 0x100000000 : crc32OriginValue).toString(16).toLocaleUpperCase()}`)
   }
 
   /**
    * 解析手机号码的区域
    * @param phone 手机号码(前7-11位)
-   * @return Region 找不到返回undefined
+   * @return Region(找不到返回undefined)
    */
   parse(phone: string): Region | undefined {
     if (typeof phone !== 'string') {
@@ -97,7 +99,7 @@ class Phone2Region {
   /**
    * 解析手机号码的区域
    * @param phone 手机号码(11位)
-   * @return Region 找不到返回undefined
+   * @return Region(找不到返回undefined)
    */
   parse11(phone: number): Region | undefined {
     if (typeof phone !== 'number') {
@@ -113,7 +115,7 @@ class Phone2Region {
   /**
    * 解析手机号码的区域
    * @param phone 手机号码(前7位)
-   * @return Region 找不到返回undefined
+   * @return Region(找不到返回undefined)
    */
   parse7(phone: number): Region | undefined {
     if (typeof phone !== 'number') {
@@ -129,7 +131,7 @@ class Phone2Region {
   /**
    * 解析手机号码的区域(内部)
    * @param phone 手机号码前7位-1300000
-   * @return Region (找不到返回undefined)
+   * @return Region(找不到返回undefined)
    */
   private innerParse(phone: number): Region | undefined {
     if (!this.isInit) {
@@ -179,7 +181,7 @@ class Phone2Region {
   /**
    * 字节对齐
    * @param pos 位置
-   * @return number 对齐后的位置
+   * @return 对齐后的位置
    */
   private align(pos: number): number {
     let remain = (pos - this.vectorAreaPtr) % 5

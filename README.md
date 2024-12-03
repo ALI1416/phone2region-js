@@ -20,6 +20,7 @@
 
 ### 其他语言项目
 
+- `.Net` : [ALI1416/Phone2Region.Net](https://github.com/ALI1416/Phone2Region.Net)
 - `Java` : [ALI1416/phone2region](https://github.com/ALI1416/phone2region)
 
 ## 依赖导入
@@ -56,8 +57,10 @@ async function runUrl() {
 }
 
 async function runFile() {
+  console.log(`是否已经初始化：${phone2Region.initialized()}`)
   let buffer = fs.readFileSync(zdbPath).buffer
   await phone2Region.init(buffer)
+  console.log(`是否已经初始化：${phone2Region.initialized()}`)
   run()
 }
 
