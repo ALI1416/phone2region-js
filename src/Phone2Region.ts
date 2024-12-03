@@ -32,7 +32,7 @@ class Phone2Region {
 
   /**
    * 是否已经初始化
-   * @return 是否已经初始化
+   * @return  {boolean} 是否已经初始化
    */
   initialized(): boolean {
     return this.isInit
@@ -42,8 +42,9 @@ class Phone2Region {
    * 初始化实例通过URL<br>
    * 例如：<code>https://www.404z.cn/files/phone2region/v2.0.0/data/phone2region.zdb</code>
    * @param url URL
+   * @return {Promise<void>} Promise
    */
-  async initByUrl(url: string) {
+  async initByUrl(url: string): Promise<void> {
     if (this.isInit) {
       throw new Phone2RegionException('已经初始化过了，不可重复初始化！')
     }
@@ -54,8 +55,9 @@ class Phone2Region {
   /**
    * 初始化实例
    * @param arraybuffer 压缩的zdb ArrayBuffer
+   * @return {Promise<void>} Promise
    */
-  async init(arraybuffer: ArrayBuffer) {
+  async init(arraybuffer: ArrayBuffer): Promise<void> {
     if (this.isInit) {
       throw new Phone2RegionException('已经初始化过了，不可重复初始化！')
     }
@@ -78,7 +80,7 @@ class Phone2Region {
   /**
    * 解析手机号码的区域
    * @param phone 手机号码(前7-11位)
-   * @return Region(找不到返回undefined)
+   * @return {Region | undefined} Region(找不到返回undefined)
    */
   parse(phone: string): Region | undefined {
     if (typeof phone !== 'string') {
@@ -99,7 +101,7 @@ class Phone2Region {
   /**
    * 解析手机号码的区域
    * @param phone 手机号码(11位)
-   * @return Region(找不到返回undefined)
+   * @return {Region | undefined} Region(找不到返回undefined)
    */
   parse11(phone: number): Region | undefined {
     if (typeof phone !== 'number') {
@@ -115,7 +117,7 @@ class Phone2Region {
   /**
    * 解析手机号码的区域
    * @param phone 手机号码(前7位)
-   * @return Region(找不到返回undefined)
+   * @return {Region | undefined} Region(找不到返回undefined)
    */
   parse7(phone: number): Region | undefined {
     if (typeof phone !== 'number') {
@@ -131,7 +133,7 @@ class Phone2Region {
   /**
    * 解析手机号码的区域(内部)
    * @param phone 手机号码前7位-1300000
-   * @return Region(找不到返回undefined)
+   * @return {Region | undefined} Region(找不到返回undefined)
    */
   private innerParse(phone: number): Region | undefined {
     if (!this.isInit) {
@@ -181,7 +183,7 @@ class Phone2Region {
   /**
    * 字节对齐
    * @param pos 位置
-   * @return 对齐后的位置
+   * @return {number} 对齐后的位置
    */
   private align(pos: number): number {
     let remain = (pos - this.vectorAreaPtr) % 5

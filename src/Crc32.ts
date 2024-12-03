@@ -8,7 +8,7 @@
 
 /**
  * 生成CRC表
- * @return CRC表
+ * @return {number[]} CRC表
  */
 function makeTable(): number[] {
   let temp: number, table: number[] = []
@@ -31,7 +31,7 @@ const crcTable = makeTable()
  * 计算CRC32
  * @param buffer 数据
  * @param start 起始下标
- * @return CRC32
+ * @return {number} CRC32
  */
 function crc32(buffer: Uint8Array, start: number): number {
   let crc = -1
