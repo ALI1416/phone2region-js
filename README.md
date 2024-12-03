@@ -20,8 +20,8 @@
 
 ### 其他语言项目
 
-- `.Net` : [ALI1416/Phone2Region.Net](https://github.com/ALI1416/Phone2Region.Net)
 - `Java` : [ALI1416/phone2region](https://github.com/ALI1416/phone2region)
+- `.Net` : [ALI1416/Phone2Region.Net](https://github.com/ALI1416/Phone2Region.Net)
 
 ## 依赖导入
 

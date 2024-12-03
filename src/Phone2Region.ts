@@ -177,7 +177,7 @@ class Phone2Region {
     let recordValueLength = this.buffer.getInt8(pos) & 0xFF
     pos += 1
     let recordValue = this.buffer.buffer.slice(pos, pos + recordValueLength)
-    return new Region(decoder.decode(recordValue))
+    return new Region(decoder.decode(new Uint8Array(recordValue)))
   }
 
   /**
